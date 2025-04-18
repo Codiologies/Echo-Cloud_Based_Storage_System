@@ -141,15 +141,13 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'dashboard'  # or 'my_files' if you renamed it
 LOGOUT_REDIRECT_URL = 'login'
 
-# ... existing code ...
-
 # Email Configuration
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'  # For Gmail
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'httpsdesk@gmail.com'  # Replace with your Gmail address
-EMAIL_HOST_PASSWORD = 'vnpy nfly zeyz mphx'  # Replace with your Gmail App Password
-DEFAULT_FROM_EMAIL = 'Echo <httpsdesk@gmail.com>'  # Changed to include display name "Echo"
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')  # Get from environment variable
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')  # Get from environment variable
+DEFAULT_FROM_EMAIL = f'Echo <{os.getenv("EMAIL_HOST_USER")}>'  # Use environment variable
 
 # ... rest of the existing code ...
