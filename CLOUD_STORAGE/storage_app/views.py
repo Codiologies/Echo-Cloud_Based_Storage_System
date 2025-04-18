@@ -136,7 +136,6 @@ def send_registration_otp_email(email, otp):
     Your OTP for registration is: {otp}
 
     This OTP will expire in 10 minutes.
-
     
     '''
     
