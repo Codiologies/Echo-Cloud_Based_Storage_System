@@ -1,4 +1,4 @@
-# Cloud Storage
+# Echo-Cloud_Based_Storage_System
 
 A Django-based cloud storage application that allows users to upload, manage, and share files.
 
@@ -20,8 +20,8 @@ A Django-based cloud storage application that allows users to upload, manage, an
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/cloud-storage.git
-   cd cloud-storage
+   git clone https://github.com/codiologies/Echo-Cloud_Based_Storage_System.git
+   cd Echo-Cloud_Based_Storage_System
    ```
 
 2. Create a virtual environment and activate it:
