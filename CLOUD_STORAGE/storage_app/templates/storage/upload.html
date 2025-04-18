@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="text-center mb-4">
+            <i class="bi bi-cloud-arrow-up text-primary" style="font-size: 3rem;"></i>
+            <h1 class="h3 mt-3">Upload File</h1>
+            <p class="text-muted">Select a file to upload to your cloud storage</p>
+        </div>
+
+        <div class="card slide-up">
+            <div class="card-body p-4">
+                <form method="post" enctype="multipart/form-data" class="upload-form" id="upload-form">
+                    {% csrf_token %}
+                    <div class="upload-area mb-4 p-4 text-center border rounded-3" 
+                         style="border-style: dashed !important; background-color: var(--background-color);">
+                        <input type="file" name="file" id="file" class="d-none" required>
+                        <label for="file" class="mb-0" style="cursor: pointer;">
+                            <i class="bi bi-cloud-arrow-up text-primary" style="font-size: 2.5rem;"></i>
+                            <p class="mt-3 mb-1">Drag and drop your file here</p>
+                            <p class="text-muted small mb-0">or click to browse</p>
+                        </label>
+                    </div>
+                    <div class="selected-file d-none mb-3">
+                        <div class="d-flex align-items-center p-3 bg-light rounded">
+                            <i class="bi bi-file-earmark text-primary me-2"></i>
+                            <span class="file-name flex-grow-1"></span>
+                            <button type="button" class="btn btn-link text-danger p-0" onclick="clearFile()">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Progress bar container -->
+                    <div class="progress-container mb-3 d-none">
+                        <div class="d-flex justify-content-between mb-1">
+                            <small class="text-muted">Uploading...</small>
+                            <small class="text-muted upload-percentage">0%</small>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary px-4" id="upload-button">
+                            <i class="bi bi-upload me-2"></i>Upload File
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const fileInput = document.getElementById('file');
+    const selectedFile = document.querySelector('.selected-file');
+    const fileName = document.querySelector('.file-name');
+    const uploadArea = document.querySelector('.upload-area');
+    const uploadForm = document.getElementById('upload-form');
+    const progressContainer = document.querySelector('.progress-container');
+    const progressBar = document.querySelector('.progress-bar');
+    const uploadPercentage = document.querySelector('.upload-percentage');
+    const uploadButton = document.getElementById('upload-button');
+    let isUploading = false;
+
+    // Handle file selection
+    fileInput.addEventListener('change', function(e) {
+        if (this.files.length > 0) {
+            const file = this.files[0];
+            fileName.textContent = file.name;
+            selectedFile.classList.remove('d-none');
+            selectedFile.classList.add('slide-up');
+        }
+    });
+
+    // Handle drag and drop
+    uploadArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        uploadArea.style.backgroundColor = '#e9ecef';
+    });
+
+    uploadArea.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        uploadArea.style.backgroundColor = '';
+    });
+
+    uploadArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        uploadArea.style.backgroundColor = '';
+        if (e.dataTransfer.files.length > 0) {
+            fileInput.files = e.dataTransfer.files;
+            const file = e.dataTransfer.files[0];
+            fileName.textContent = file.name;
+            selectedFile.classList.remove('d-none');
+            selectedFile.classList.add('slide-up');
+        }
+    });
+
+    // Clear selected file
+    function clearFile() {
+        fileInput.value = '';
+        selectedFile.classList.add('d-none');
+        fileName.textContent = '';
+    }
+
+    // Handle form submission with progress bar
+    uploadForm.addEventListener('submit', function(e) {
+        // Prevent the default form submission
+        e.preventDefault();
+        
+        if (fileInput.files.length > 0 && !isUploading) {
+            isUploading = true;
+            
+            // Show progress bar
+            progressContainer.classList.remove('d-none');
+            uploadButton.disabled = true;
+            uploadButton.innerHTML = '<i class="bi bi-arrow-repeat me-2"></i>Uploading...';
+            
+            // Simulate upload progress
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 5;
+                if (progress <= 100) {
+                    progressBar.style.width = progress + '%';
+                    progressBar.setAttribute('aria-valuenow', progress);
+                    uploadPercentage.textContent = progress + '%';
+                } else {
+                    clearInterval(interval);
+                    // Submit the form after the animation completes
+                    setTimeout(() => {
+                        uploadForm.submit();
+                    }, 500);
+                }
+            }, 100);
+        }
+    });
+</script>
+{% endblock %}
