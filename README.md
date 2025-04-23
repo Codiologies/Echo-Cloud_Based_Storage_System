@@ -54,6 +54,10 @@ A Django-based cloud storage application that allows users to upload, manage, an
 
 7. Visit http://127.0.0.1:8000/ in your browser
 
+## 📷 Screenshots  
+### Homepage  
+![Homepage](GitHub%20Resources/home.png)  
+
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details. 
