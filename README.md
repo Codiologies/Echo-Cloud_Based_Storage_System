@@ -1,15 +1,15 @@
-# Echo-Cloud_Based_Storage_System
+# 📂Echo-Cloud_Based_Storage_System
 
-A Django-based cloud storage application that allows users to upload, manage, and share files.
+  A Django-based cloud storage application that allows users to upload, manage, and share files.
 
-## Features
+## 💥Features
 
 - User authentication and authorization
 - File upload and management
 - File sharing capabilities
 - Email notifications with custom sender name
 
-## Technologies Used
+## 💻Technologies Used
 
 - Django
 - SQLite (default database)
